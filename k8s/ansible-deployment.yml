@@ -1,5 +1,3 @@
-
-   
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -30,7 +28,7 @@ metadata:
 spec:
   selector:
     app: myapp-k 
-  type: LoadBalancer
+  type: clusterIP
   ports:
   - protocol: TCP
     port: 5000
