@@ -1,0 +1,57 @@
+---
+- hosts: dev
+  become: True
+  tasks:
+    - name: Update apt repo and cache on all Debian/Ubuntu boxes
+      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
+      become: true
+    - name: Deployment
+      kubernetes.core.k8s:
+         state: present
+         definition:
+           apiVersion: apps/v1
+           kind: Deployment
+           metadata:
+             name: myapp-k-deployment
+             labels:
+               app: myapp-k
+           spec:
+             replicas: 1
+             selector:
+               matchLabels:
+                 app: myapp-k
+             template:
+               metadata:
+                 labels:
+                   app: myapp-k
+             spec:
+               containers:
+                 - name: myapp-server
+                   image: hassanali70826/myapp:DOCKER_TAG
+                   ports:
+                     - containerPort: 8080
+    - name: Service
+      kubernetes.core.k8s:
+         state: present
+         definition:
+         apiVersion: v1
+         kind: Service
+         metadata:
+           name: myapp-k-service
+         spec:
+           selector:
+             app: myapp-k
+           type: LoadBalancer
+           ports:
+             - protocol: TCP
+               port: 5000
+               targetPort: 8080
+               nodePort: 31110
+  post_tasks:
+    - name: GET deployed micro-services for such name space default
+      shell: kubectl --kubeconfig=/home/ubuntu/kube/ -n "{{ namespace }}" get all
+      register: results
+      tags: get-info
+
+    - debug: msg="{{ results.stdout.split('\n') }}"
+      tags: get-info
