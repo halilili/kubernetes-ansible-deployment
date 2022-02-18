@@ -2,32 +2,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: myapp-k-deployment
-  labels:
-    app: myapp-k
+  name: k8s-ansible-deployment
 spec:
-  replicas: 1
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
-      app: myapp-k
+      app: nodeapp
   template:
     metadata:
       labels:
-        app: myapp-k 
+        app: nodeapp
     spec:
       containers:
-      - name: myapp-server
-        image: hassanali70826/myapp:DOCKER_TAG
+      - image: hassanali70826/myapp:DOCKER_TAG
+        name: nodeapp
         ports:
-           - containerPort: 8080     
+        - containerPort: 8080
+    
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myapp-k-service
+  name: k8s-ansible-deployment-is
 spec:
   selector:
-    app: myapp-k 
+    app: nodeapp
   type: clusterIP
   ports:
   - protocol: TCP
