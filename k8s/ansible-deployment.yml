@@ -19,7 +19,7 @@ spec:
         app: nodeapp
     spec:
       containers:
-      - image: hassanali70826/myapp:DOCKER_TAG
+      - image: hassanali70826/myapp:1.0.0
         name: nodeapp
         ports:
         - containerPort: 8080
