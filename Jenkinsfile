@@ -15,7 +15,7 @@ pipeline {
         stage('SCM') {
             steps {
                 git credentialsId: 'github-access', 
-                    url: 'https://github.com/halilili/docker-ansible-jenkins-deployment'
+                    url: 'https://github.com/halilili/kubernetes-ansible-deployment/'
                 
             }
         }
