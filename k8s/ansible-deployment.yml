@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: k8s-ansible-deployment
 spec:
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -22,8 +22,7 @@ spec:
       - image: hassanali70826/myapp:DOCKER_TAG
         name: nodeapp
         ports:
-          - containerPort: 8080
-            name: mnp-hlr-port
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
