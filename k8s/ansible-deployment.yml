@@ -22,8 +22,8 @@ spec:
       - image: hassanali70826/myapp:DOCKER_TAG
         name: nodeapp
         ports:
-        - containerPort: 8080
-    
+          - containerPort: 8080
+          name: mnp-hlr-port
 ---
 apiVersion: v1
 kind: Service
