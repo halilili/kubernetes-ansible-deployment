@@ -14,20 +14,21 @@ pipeline {
         
         stage('SCM') {
             steps {
-                git credentialsId: 'github-access', 
-                    url: 'https://github.com/halilili/kubernetes-ansible-deployment/'
+                //When we dont have master branch, we should mention the main branch, it is created newly
+                git branch: 'main', credentialsId: 'github-access', 
+                url: 'https://github.com/halilili/kubernetes-ansible-deployment/'
                 
             }
         }
         
-        
+      
         stage('Build Our Code') {
             steps {
                sh "mvn clean package"
             }
         }
         
-        
+         
         stage('Docker Build') {
             steps {
               sh "docker build . -t hassanali70826/myapp:${DOCKER_TAG}"
@@ -45,12 +46,14 @@ pipeline {
             }
         }
         
-        stage('Ansible Deployment and Packages Preperation') {
+        stage('Ansible Deployment') {
             steps {
-                ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true, extras: " -e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'dev.inv', playbook: 'ansible-deployment.yml'
+                ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true,
+                extras: " -e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'inventory.inv', playbook: 'ansible-playbook-deployment.yml'
                
             }
         }
+        
     }
 }
 
