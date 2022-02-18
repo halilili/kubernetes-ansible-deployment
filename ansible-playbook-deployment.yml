@@ -1,57 +1,87 @@
----
-- hosts: dev
-  become: True
+- name: Ansible Deployments
+  hosts: dev
+  gather_facts: true
+  become: true
+  
+  
+  
+  pre_tasks:
+    - name: Create a Namespace
+      kubernetes.core.k8s:
+        kubeconfig: '~/.kube/config'
+        api_version: v1
+        kind: Namespace
+        name: "ansible-testing"
+        state: present
+  
+  
+  
   tasks:
-    - name: Update apt repo and cache on all Debian/Ubuntu boxes
-      apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
-      become: true
-    - name: Deployment
+    - name: Deployment 1
       kubernetes.core.k8s:
          state: present
          definition:
            apiVersion: apps/v1
            kind: Deployment
            metadata:
-             name: myapp-k-deployment
+             name: nodeapp-dep
+             namespace: "ansible-testing"
              labels:
-               app: myapp-k
+               app: nodeapp
            spec:
-             replicas: 1
+             replicas: 2
+             revisionHistoryLimit: 20
+             strategy:
+               rollingUpdate:
+                 maxSurge: 25%
+                 maxUnavailable: 25%
+               type: RollingUpdate
              selector:
                matchLabels:
-                 app: myapp-k
+                 app: nodeapp
+                 tier: core
              template:
                metadata:
                  labels:
-                   app: myapp-k
-             spec:
-               containers:
-                 - name: myapp-server
-                   image: hassanali70826/myapp:DOCKER_TAG
-                   ports:
-                     - containerPort: 8080
-    - name: Service
+                   app: nodeapp
+                   tier: core
+               spec:
+                 containers:
+                   - name: nodeapp
+                     image: hassanali70826/myapp:DOCKER_TAG
+                     imagePullPolicy: Always    
+                     ports:
+                       - containerPort: 8080
+                         name: nodeapp-p
+                     resources:
+                       limits:
+                         cpu: 300m
+                       requests:
+                         cpu: 100m 
+    - name: Service for Deployment 1 load balancer
       kubernetes.core.k8s:
-         state: present
-         definition:
-         apiVersion: v1
-         kind: Service
-         metadata:
-           name: myapp-k-service
-         spec:
-           selector:
-             app: myapp-k
-           type: LoadBalancer
-           ports:
-             - protocol: TCP
-               port: 5000
-               targetPort: 8080
-               nodePort: 31110
+       state: present
+       definition:
+        apiVersion: v1
+        kind: Service
+        metadata:
+           name: nodeapp-dep-es
+           namespace: "ansible-testing"
+           labels:
+             app: net
+        spec:
+          type: LoadBalancer
+          selector:
+              app: nodeapp
+              tier: core
+          ports:
+          - port: 1105
+            targetPort: 8080
+            name: nodeapp-p
   post_tasks:
-    - name: GET deployed micro-services for such name space default
-      shell: kubectl --kubeconfig=/home/ubuntu/kube/ -n "{{ namespace }}" get all
+    - name: GET deployed micro-services for such name space "ansible-testing"
+      shell: kubectl --kubeconfig=/home/{{ ansible_user_id }}/.kube/config -n ansible-testing get all
       register: results
       tags: get-info
 
-    - debug: msg="{{ results.stdout.split('\n') }}"
-      tags: get-info
+    - debug: msg="{{ results.stdout.split('\n') }}"  
