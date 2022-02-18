@@ -50,7 +50,6 @@ pipeline {
             steps {
                 ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true,
                 extras: " -e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'inventory.inv', playbook: 'ansible-playbook-deployment.yml'
-               
             }
         }
         
