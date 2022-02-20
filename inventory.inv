@@ -1,4 +1,4 @@
 [dev]
 172.31.11.22 ansible_user=ubuntu
-ansible_host_key_checking= true # false
+ansible_host_key_checking= false
 collections_paths= ~/.ansible/collections
