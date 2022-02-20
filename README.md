@@ -17,7 +17,7 @@ The offending line appears to be:
       ^ here
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<------------------Solution: ------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- ansible-galaxy collection install community.kubernetes
+ansible-galaxy collection install community.kubernetes
 
 
 
