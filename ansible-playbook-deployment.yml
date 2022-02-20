@@ -5,8 +5,8 @@
   
   
   
-  collections: 
-    - community.kubernetes
+  #collections: 
+    #- community.kubernetes
   
   pre_tasks:
     - name: Create a Namespace
