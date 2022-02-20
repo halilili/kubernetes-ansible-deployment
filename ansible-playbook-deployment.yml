@@ -1,5 +1,5 @@
 - name: Ansible Deployments
-  hosts: dev #localhost
+  hosts: localhost #dev
   gather_facts: true
   become: false
   
