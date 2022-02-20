@@ -1,5 +1,8 @@
 dev:
-  172.31.11.22 ansible_user: ubuntu
-  ansible_python_interpreter: /user/bin/python3
-  ansible_host_key_checking: false
-  collections_paths: ~/.ansible/collections
+  hosts:
+    172.31.11.22:
+      ansible_user: ubuntu
+      ansible_python_interpreter: /user/bin/python3
+      ansible_host_key_checking: false
+      collections_paths: ~/.ansible/collections
+  
