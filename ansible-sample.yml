@@ -1,0 +1,19 @@
+- name: Deploy Kubernetes resources in Ansible Playbook
+  hosts: localhost
+  gather_facts: true
+  become: true
+
+  collections:
+    - community.kubernetes
+
+  tasks:
+
+    - name: Ensure the myapp Namespace exists.
+      community.kubernetes.k8s:
+        api_version: v1
+        kind: Namespace
+        name: amintestingansible
+        state: present
+        register: namespace
+
+    - debug: msg= "{{ namespace.stdout.split('\n') }}"
