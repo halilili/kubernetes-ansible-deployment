@@ -85,3 +85,4 @@
       tags: get-info
 
     - debug: msg="{{ results.stdout.split('\n') }}"  
+
