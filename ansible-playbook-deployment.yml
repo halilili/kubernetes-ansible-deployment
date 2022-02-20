@@ -5,6 +5,9 @@
   
   
   
+  collections: 
+    - community.kubernetes
+  
   pre_tasks:
     - name: Create a Namespace
       kubernetes.core.k8s:
