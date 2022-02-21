@@ -13,7 +13,7 @@
       package:
         name: python3
         state: present
-     - name: kubernetes community
+    - name: kubernetes community
       package:
         name: community.kubernetes
         state: present
