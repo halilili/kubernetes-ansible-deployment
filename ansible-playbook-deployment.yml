@@ -9,6 +9,18 @@
     #- community.kubernetes
   
   pre_tasks:
+    - name: Install Python3
+      package:
+        name: python3
+        state: present
+     - name: kubernetes community
+      package:
+        name: community.kubernetes
+        state: present
+    - name: Install Required Python Packages
+      pip:
+        name: ['openshift', 'PyYAML']
+        
     - name: Create a Namespace
       kubernetes.core.k8s:
         kubeconfig: '~/.kube/config'
