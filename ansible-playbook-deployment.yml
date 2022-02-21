@@ -1,7 +1,7 @@
 - name: Ansible Deployments
   hosts: localhost #dev
-  gather_facts: false
-  become: true
+  gather_facts: true
+  become: false
   
   
   
