@@ -2,8 +2,8 @@ dev:
   hosts:
     172.31.11.22:
       ansible_user: ubuntu
-      ansible_connection: ssh
-      ansible_python_interpreter: /home/ubuntu/.local/bin/ansible
-      ansible_host_key_checking: false
-      collections_paths: ~/.ansible/collections
+      #ansible_connection: ssh
+      #ansible_python_interpreter: /home/ubuntu/.local/bin/ansible
+      #ansible_host_key_checking: false
+      #collections_paths: ~/.ansible/collections
   
