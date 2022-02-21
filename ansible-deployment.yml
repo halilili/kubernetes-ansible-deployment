@@ -1,1 +1,16 @@
 
+- name: Ansible Deployments
+  hosts: dev #localhost
+  gather_facts: true
+  become: false
+  
+  
+  
+  tasks:
+    - name: Deployment 1
+      shell: --kubeconfig=/home/{{ ansible_user_id }}/.kube/config apply -f k8s/ansible-deployment.yml
+      register: results
+      #when:
+         #- deploymenttodelete is not defined
+         #- namespace is not defined
+    - debug: msg="{{ results.stdout.split('\n') }}"
