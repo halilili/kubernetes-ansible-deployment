@@ -52,7 +52,7 @@
                spec:
                  containers:
                    - name: nodeapp
-                     image: hassanali70826/myapp:DOCKER_TAG
+                     image: hassanali70826/myapp:{DOCKER_TAG}
                      imagePullPolicy: Always    
                      ports:
                        - containerPort: 8080
