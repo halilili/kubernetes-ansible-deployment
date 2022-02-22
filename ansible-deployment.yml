@@ -39,14 +39,14 @@
               name: port-8000-tcp
               port: 8000
 
-    - name: Get an existing Service object
-      kubernetes.core.k8s:
-         definition:
-           api_version: v1
-           kind: Service
-           name: web
-           namespace: testing
-      register: web_service
+    #- name: Get an existing Service object
+      #kubernetes.core.k8s:
+         #definition:
+           #api_version: v1
+           #kind: Service
+           #name: web
+           #namespace: testing
+      #register: web_service
 
     - name: Get a list of all service objects
       kubernetes.core.k8s:
