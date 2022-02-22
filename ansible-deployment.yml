@@ -64,14 +64,14 @@
 - name: Create a Deployment by reading the definition from a local file
   k8s_raw:
     state: present
-    src: /testing/deployment.yml
+    src: /k8s/ansible-deployment.yml
 
 - name: Read definition file from the Ansible controller file system
   k8s_raw:
     state: present
-    definition: "{{ lookup('file', '/testing/deployment.yml') | from_yaml }}"
+    definition: "{{ lookup('file', '/k8s/ansible-deployment.yml') | from_yaml }}"
 
 - name: Read definition file from the Ansible controller file system after Jinja templating
   k8s_raw:
     state: present
-    definition: "{{ lookup('template', '/testing/deployment.yml') | from_yaml }}"
+    definition: "{{ lookup('template', '/k8s/ansible-deployment.yml') | from_yaml }}"
