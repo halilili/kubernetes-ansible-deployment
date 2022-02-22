@@ -8,14 +8,14 @@
   
   tasks:
   - name: Create a k8s namespace
-    k8s_raw:
+    kubernetes.core.k8s:
       name: testing
       api_version: v1
       kind: Namespace
       state: present
 
 - name: Create a Service object from an inline definition
-  k8s_raw:
+  kubernetes.core.k8s:
     state: present
     definition:
       apiVersion: v1
@@ -37,7 +37,7 @@
           port: 8000
 
 - name: Get an existing Service object
-  k8s_raw:
+  kubernetes.core.k8s:
     api_version: v1
     kind: Service
     name: web
@@ -45,14 +45,14 @@
   register: web_service
 
 - name: Get a list of all service objects
-  k8s_raw:
+  kubernetes.core.k8s:
     api_version: v1
     kind: ServiceList
     namespace: testing
   register: service_list
 
 - name: Remove an existing Service object
-  k8s_raw:
+  kubernetes.core.k8s:
     state: absent
     api_version: v1
     kind: Service
@@ -62,16 +62,16 @@
 # Passing the object definition from a file
 
 - name: Create a Deployment by reading the definition from a local file
-  k8s_raw:
+  kubernetes.core.k8s:
     state: present
     src: /k8s/ansible-deployment.yml
 
 - name: Read definition file from the Ansible controller file system
-  k8s_raw:
+  kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('file', '/k8s/ansible-deployment.yml') | from_yaml }}"
 
 - name: Read definition file from the Ansible controller file system after Jinja templating
-  k8s_raw:
+  kubernetes.core.k8s:
     state: present
     definition: "{{ lookup('template', '/k8s/ansible-deployment.yml') | from_yaml }}"
