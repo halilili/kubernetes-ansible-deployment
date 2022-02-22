@@ -38,26 +38,31 @@
 
 - name: Get an existing Service object
   kubernetes.core.k8s:
-    api_version: v1
-    kind: Service
-    name: web
-    namespace: testing
+     state: present
+     definition:
+       api_version: v1
+       kind: Service
+       name: web
+       namespace: testing
   register: web_service
 
 - name: Get a list of all service objects
   kubernetes.core.k8s:
-    api_version: v1
-    kind: ServiceList
-    namespace: testing
+     state: present
+     definition:
+       api_version: v1
+       kind: ServiceList
+       namespace: testing
   register: service_list
 
 - name: Remove an existing Service object
   kubernetes.core.k8s:
-    state: absent
-    api_version: v1
-    kind: Service
-    namespace: testing
-    name: web
+     state: absent
+     definition:
+       api_version: v1
+       kind: Service
+       namespace: testing
+       name: web
 
 # Passing the object definition from a file
 
