@@ -73,7 +73,7 @@
     - name: Create a Deployment by reading the definition from a local file
       kubernetes.core.k8s:
         state: present
-        src: k8s/ansible-deployment.yml
+        src: /home/ubuntu/k8s/ansible/ansible-k8s-module-sample.yml
 
     - name: Read definition file from the Ansible controller file system
       kubernetes.core.k8s:
