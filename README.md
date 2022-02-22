@@ -37,3 +37,12 @@ msg: "Failed to import the required Python library (kubernetes) on ip-172-31-11-
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<------------------Solution: ------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 pip install openshift pyyaml kubernetes
+
+
+Error 4:
+
+"msg": "Failed to import the required Python library (kubernetes) on ip-172-31-11-22's Python /usr/bin/python. Please read the module documentation and install it in the appropriate location. If the required library is installed, but Ansible is using the wrong Python interpreter, please consult the documentation on ansible_python_interpreter"
+
+We upgrade the machine python to 3.8 like the ansible python version
+<<<<<<<<<<<<<<<<<<<<<<<<<<<------------------Solution: ------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+sudo apt-get install python3.8
