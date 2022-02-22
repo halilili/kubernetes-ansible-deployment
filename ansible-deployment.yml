@@ -73,14 +73,14 @@
     - name: Create a Deployment by reading the definition from a local file
       kubernetes.core.k8s:
         state: present
-        src: /k8s/ansible-deployment.yml
+        src: k8s/ansible-deployment.yml
 
     - name: Read definition file from the Ansible controller file system
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('file', '/k8s/ansible-deployment.yml') | from_yaml }}"
+        definition: "{{ lookup('file', 'k8s/ansible-deployment.yml') | from_yaml }}"
 
     - name: Read definition file from the Ansible controller file system after Jinja templating
       kubernetes.core.k8s:
         state: present
-        definition: "{{ lookup('template', '/k8s/ansible-deployment.yml') | from_yaml }}"
+        definition: "{{ lookup('template', 'k8s/ansible-deployment.yml') | from_yaml }}"
