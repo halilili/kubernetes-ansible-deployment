@@ -46,12 +46,22 @@ pipeline {
             }
         }
         
+               
+       stage("Prepare Deployment Tag"){
+           steps{
+               sh "chmod +x changeTag.sh"
+               sh "./changeTag.sh ${DOCKER_TAG}"
+           }
+       }
+        
         stage('Ansible Deployment') {
             steps {
                
-                ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true,
-                extras: " -e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'inventory.yaml', playbook: 'ansible-playbook-deployment.yml' 
+                //ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true,
+                //extras: " -e DOCKER_TAG=${DOCKER_TAG}", installation: 'ansible', inventory: 'inventory.yaml', playbook: 'ansible-playbook-deployment.yml' 
                
+                ansiblePlaybook credentialsId: 'aws-jenkins-server-aws-ssh-conn', disableHostKeyChecking: true,
+                extras: " -e DOCKER_TAG=${DOCKER_TAG} -vvv", installation: 'ansible', inventory: 'inventory.yaml', playbook: 'ansible-playbook-deployment.yml' //ansible-deployment.yml
             }
         }
         
