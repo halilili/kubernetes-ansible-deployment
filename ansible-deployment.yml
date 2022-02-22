@@ -55,6 +55,9 @@
            kind: ServiceList
            namespace: testing
       register: service_list
+      
+    - debug:
+        var: service_list
 
     - name: Remove an existing Service object
       kubernetes.core.k8s:
