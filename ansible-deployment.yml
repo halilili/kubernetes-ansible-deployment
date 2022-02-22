@@ -1,82 +1,85 @@
-
 - name: Ansible Deployments
   hosts: dev #localhost
   gather_facts: true
   become: false
   
+  #vars:
+    #ansible_python_interpreter: /usr/bin/python3
   
-  
+  #collections: 
+    #- community.kubernetes
+    
   tasks:
-  - name: Create a k8s namespace
-    kubernetes.core.k8s:
-      name: testing
-      api_version: v1
-      kind: Namespace
-      state: present
+    - name: Create a k8s namespace
+      kubernetes.core.k8s:
+        name: testing
+        api_version: v1
+        kind: Namespace
+        state: present
 
-- name: Create a Service object from an inline definition
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Service
-      metadata:
-        name: web
-        namespace: testing
-        labels:
-          app: galaxy
-          service: web
-      spec:
-        selector:
-          app: galaxy
-          service: web
-        ports:
-        - protocol: TCP
-          targetPort: 8000
-          name: port-8000-tcp
-          port: 8000
+    - name: Create a Service object from an inline definition
+      kubernetes.core.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: web
+            namespace: testing
+            labels:
+              app: galaxy
+              service: web
+          spec:
+            selector:
+              app: galaxy
+              service: web
+            ports:
+            - protocol: TCP
+              targetPort: 8000
+              name: port-8000-tcp
+              port: 8000
 
-- name: Get an existing Service object
-  kubernetes.core.k8s:
-     state: present
-     definition:
-       api_version: v1
-       kind: Service
-       name: web
-       namespace: testing
-  register: web_service
+    - name: Get an existing Service object
+      kubernetes.core.k8s:
+         state: present
+         definition:
+           api_version: v1
+           kind: Service
+           name: web
+           namespace: testing
+      register: web_service
 
-- name: Get a list of all service objects
-  kubernetes.core.k8s:
-     state: present
-     definition:
-       api_version: v1
-       kind: ServiceList
-       namespace: testing
-  register: service_list
+    - name: Get a list of all service objects
+      kubernetes.core.k8s:
+         state: present
+         definition:
+           api_version: v1
+           kind: ServiceList
+           namespace: testing
+      register: service_list
 
-- name: Remove an existing Service object
-  kubernetes.core.k8s:
-     state: absent
-     definition:
-       api_version: v1
-       kind: Service
-       namespace: testing
-       name: web
+    - name: Remove an existing Service object
+      kubernetes.core.k8s:
+         state: absent
+         definition:
+           api_version: v1
+           kind: Service
+           namespace: testing
+           name: web
 
-# Passing the object definition from a file
+    # Passing the object definition from a file
 
-- name: Create a Deployment by reading the definition from a local file
-  kubernetes.core.k8s:
-    state: present
-    src: /k8s/ansible-deployment.yml
+    - name: Create a Deployment by reading the definition from a local file
+      kubernetes.core.k8s:
+        state: present
+        src: /k8s/ansible-deployment.yml
 
-- name: Read definition file from the Ansible controller file system
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('file', '/k8s/ansible-deployment.yml') | from_yaml }}"
+    - name: Read definition file from the Ansible controller file system
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('file', '/k8s/ansible-deployment.yml') | from_yaml }}"
 
-- name: Read definition file from the Ansible controller file system after Jinja templating
-  kubernetes.core.k8s:
-    state: present
-    definition: "{{ lookup('template', '/k8s/ansible-deployment.yml') | from_yaml }}"
+    - name: Read definition file from the Ansible controller file system after Jinja templating
+      kubernetes.core.k8s:
+        state: present
+        definition: "{{ lookup('template', '/k8s/ansible-deployment.yml') | from_yaml }}"
