@@ -28,6 +28,23 @@ pipeline {
             }
         }
         
+        
+        stage('SonarQube Analysis') {
+            steps{
+                withSonarQubeEnv('sonarqube-8.5.1') { 
+                  sh "mvn sonar:sonar"
+                }
+            }
+        }
+        
+        
+        stage('Jmeter Unit Testing') {
+            steps{
+                
+                sh "/home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/jmeter.sh -n -t /home/ubuntu/jmeter/apache-jmeter-5.4.3/bin/examples/CSVSample.jmx -l test.jtl"
+            }
+        }
+        
          
         stage('Docker Build') {
             steps {
