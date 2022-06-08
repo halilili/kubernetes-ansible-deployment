@@ -3,7 +3,7 @@ Using ansible playbook to deploy to kubernetes cluster
 
 Many Problems were faced as solved as the below:
 
-
+lllll
 Error1:
 --------
 ERROR! couldn't resolve module/action 'kubernetes.core.k8s'. This often indicates a misspelling, missing collection, or incorrect module path.
